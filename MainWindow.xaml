@@ -1,0 +1,70 @@
+﻿<Window x:Class="notepad_project.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:notepad_project"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="550" Width="350" Background="Black">
+    <Window.Resources>
+        <!-- this is for button add and the key made that it's only for this -->
+        <Style TargetType="Button" x:Key="add_button">
+            <Setter Property="Background" Value="DarkOrange"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="30" Width="60" Height="60">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-8,0,0"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Orange"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <StackPanel x:Name="Adding_Button" Visibility="Collapsed" VerticalAlignment="Bottom">
+            <!-- the style in button is a connection to the style above /stack panel is good for seperating things like windows -->
+            <Border Width="60" Height="60" CornerRadius="30" Background="Transparent"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="15" >
+                <Button Style="{StaticResource add_button}" Content="+" FontSize="40" Click="Button_Add"/>
+            </Border>
+        </StackPanel>
+        <StackPanel x:Name="header" Visibility="Collapsed"  HorizontalAlignment="Center" VerticalAlignment="Top">
+            <TextBlock Text="Naughty Note" FontSize="20" Margin="0,0,0,10" Foreground="GhostWhite"/>
+        </StackPanel>
+
+        <StackPanel x:Name="Writing_text_window" Visibility="Visible">
+            <Grid>
+                <TextBox x:Name="Title_box" Height="40" Width="auto" Text="Title"
+       Foreground="LightGray" Background="Transparent" FontSize="30"
+       FontWeight="Light" BorderThickness="0" Padding="4,0,50,0" 
+       VerticalAlignment="Top" GotFocus="Title_box_GotFocus" TextChanged="Title_box_TextChanged" 
+       MinHeight="30" MaxHeight="300" HorizontalContentAlignment="Stretch"/>
+
+                <Button x:Name="Button_save" Height="30" Width="30" Content="S" 
+                       Background="Transparent" Foreground="White"
+                        BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Center"
+                          Margin="5" Click="Save_button"/>
+            </Grid>
+            <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden" CanContentScroll="True" PanningMode="Both" IsDeferredScrollingEnabled="True">
+         
+                    <TextBox x:Name="Text_box" Height="470" Text="Write a Note" Foreground="#7F7F7D"
+             Background="Transparent" FontSize="20" Padding="4,2,0,0"
+           FontWeight="Light" BorderThickness="0" 
+         AcceptsReturn="True" TextWrapping="Wrap" MaxLines="1"
+          HorizontalContentAlignment="Stretch" MouseDoubleClick="Text_box_MouseDoubleClick"/>
+                
+            </ScrollViewer>
+        </StackPanel>
+
+    </Grid>
+</Window>
