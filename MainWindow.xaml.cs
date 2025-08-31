@@ -1,4 +1,6 @@
-﻿using System.Reflection.PortableExecutable;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 namespace notepad_project
 {
     /// <summary>
@@ -81,20 +83,27 @@ namespace notepad_project
 
         private void Save_button(object sender, EventArgs e)
         {
-            //1-address of sql server and database
-            string connectionstring = "Data Source=DESKTOP-UR59NAB;Initial Catalog=NotePad_project;Integrated Security=True;Encrypt=False;Trust Server Certificate=True";
+            string dataconnection = "Data Source=DESKTOP-UR59NAB;Initial Catalog=NOTEAPP;Integrated Security=True;Encrypt=False;Trust Server Certificate=True";
 
-            //2-establish connection
-            SqlConnection con= new SqlConnection(connectionstring);
+            Microsoft.Data.SqlClient.SqlConnection con = new Microsoft.Data.SqlClient.SqlConnection(dataconnection);
+           
+                con.Open();
 
-            //3-open connection
+                string Titles = Title_box.Text.Trim();
+                string input = Text_box.Text.Trim();
+                string Query = "insert into savenotes(Titles,input) values(@Titles, @input);";
 
-            //4-prepare query
+                Microsoft.Data.SqlClient.SqlCommand cmd = new Microsoft.Data.SqlClient.SqlCommand(Query, con);
 
-            //5-excute query
+                cmd.Parameters.AddWithValue("@Titles", Titles);
+                cmd.Parameters.AddWithValue("@input", input);
 
-            //6-close connection
+                cmd.ExecuteNonQuery();
 
+                con.Close();
+
+            MessageBox.Show("data saved");
+               
 
         }
     }
